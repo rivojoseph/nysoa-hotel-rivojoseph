@@ -1,0 +1,390 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Gérer les chambres</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+      <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+    </div>
+    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+      <span data-feather="calendar"></span>
+      This week
+    </button>
+  </div>
+</div>
+<div *ngIf="errormesage" class="alert alert-danger alert-dismissible fade show " role="alert">
+  <span class="text-info">"Connection au serveur échouer!"</span>
+  <p>{{errormesage}}</p>
+  <div class="bd-example">
+
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-secondary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-danger" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-warning" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-info" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-dark" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div>
+  <button *ngIf="currenteCategory" type="button" class="btn btn-sm btn-outline-info me-2"  data-bs-toggle="modal" data-bs-target="#ajoutmenuadmin">Nouveau menu</button>
+  <div class="btn-group me-2">
+    <button *ngFor="let c of listCategory; let i=index" (click)="onSelectCat(c)" [ngClass]="currenteCategory==c?'active':''" type="button" class="btn btn-sm btn-outline-success">{{c.nameCat}}</button>
+  </div>
+</div>
+
+<ng-template #info1>
+  <div class="alert alert-primary alert-dismissible fade show mt-5" role="alert">
+    Séléctionner un category de chambre pour la gerée
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</ng-template>
+<div *ngIf="listChambre; else info1">
+  <div class="table-responsive mt-3">
+    <table class="table table-hover py-5">
+      <thead>
+      <tr>
+        <th><h6 class="badge rounded-pill bg-info text-dark">{{totalChambre}}</h6></th>
+        <th scope="col">Cheque</th>
+        <th scope="col">Photo</th>
+        <th></th>
+        <th scope="col">Categorie</th>
+        <th scope="col">Prix</th>
+        <th scope="col">selected</th>
+        <th scope="col">Prixpromo</th>
+        <th scope="col">Promo</th>
+        <th scope="col">Dispo</th>
+        <th scope="col">edit</th>
+        <th scope="col">delete</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr  [ngClass]="!c.disponible?'table-danger ':'table-primary'" *ngFor="let c of listChambre" >
+        <th scope="row">N°: {{c.numeroChambre}}</th>
+        <td>
+          <input type="checkbox" class="form-check-input" id="{{c.id}}">
+        </td>
+        <td>
+          <img  class="show-photo" style="height: 38px" src="{{chambreSevice.host+'/photoChambre/'+c.id+'?ts='+getTs()}}">
+        </td>
+        <td>
+          <div class="btn-modif-phpto">
+            <button class="btn btn-sm btn-outline-light" (click)="getphotoChambre(c)" data-bs-toggle="modal" data-bs-target="#modifphotomenu">
+              <span class="fa fa-edit"></span>
+            </button>
+          </div>
+        </td>
+        <td>{{c.categoryChambre!.nameCat}}</td>
+        <td>{{c.prix  |  number: '0.00' }} Ar</td>
+        <td><i class="bi bi-heart"></i>{{c.selected}}</td>
+        <td>-{{c.prixpromo |  number: '0.00' }}%</td>
+        <td>{{c.promo}}</td>
+        <td>
+          <button (click)="onHandleModifDisponible(c)" [ngClass]="c.disponible?'btn btn-success btn-sm':'btn btn-danger btn-sm'">
+            <span *ngIf="c.disponible">Oui</span>
+            <span *ngIf="!c.disponible">Non</span>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-outline-info " data-bs-toggle="modal" data-bs-target="#ajoutmenuadmin" (click)="onHandleEdit(c)">
+            <i class="fa fa-edit"></i>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-outline-danger" (click)="onHandleDelete(c)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!--***********modal modifPhoto------------>
+<div *ngIf="currentechambre" class="modal fade" id="modifphotomenu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLiveLabel">N°: {{currentechambre.numeroChambre}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="initializeFormgroup()"></button>
+      </div>
+      <div class="modal-body">
+        <img class="img-thumbnail img-fluid image  me-2 mx-2" style="" src="{{chambreSevice.host+'/photoChambre/'+currentechambre.id+'?ts='+getTs()}}">
+      </div>
+      <div class="row me-2 mx-2">
+        <div class="col-md-4">
+          <button class="btn btn-outline-success" (click)="onEdit()">
+            <span class="fa fa-edit"></span>
+          </button>
+        </div>
+        <div class="col-md-8" *ngIf="ediPhoto==true">
+          <input (change)="onChange($event)" type="file" class="form-control form-control-sm" aria-label="Small file input example">
+        </div>
+        <div class="progress-bar bg-warning text-dark w-{{progre}}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{progre}}%</div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="initializeFormgroup()">Close</button>
+        <button (click)="upload()" type="button" class="btn btn-primary">upload photo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--***********en++++++++++++------------>
+
+
+<!--++++++++++++++++modal add+++++++++++++++++++++-->
+
+
+<div class="modal fade" id="ajoutmenuadmin" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true" *ngIf="currenteCategory">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="formChambre.value.id==0" class="modal-title" id="exampleModalLabel">Nouveau Chambre dans le categorie: <span class="text-primary">{{currenteCategory!.nameCat}}</span></h5>
+        <h5 *ngIf="formChambre.value.id!=0" class="modal-title" id="exampleModalLabelModif">Modifier Chambre dans le categorie: <span class="text-primary">{{currenteCategory!.nameCat}}</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="initializeFormgroup()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+
+            <form class="row g-3" [formGroup]="formChambre" (ngSubmit)="onHandleAddChambre()">
+
+              <input type="number"  formControlName="id" hidden>
+              <div class="col-md-4">
+                <label for="validationServer01" class="form-label">N° chambre</label>
+                <input [ngClass]="formChambre.controls['numeroChambre'].errors?'is-invalid':'is-valid'" type="number" class="form-control" id="validationServer01" formControlName="numeroChambre"  required="">
+                <span *ngIf="formChambre.controls['numeroChambre'].touched
+                  && formChambre.controls['numeroChambre'].errors
+                  " class="text-danger">
+                  {{getErrorMessage('NumeroChambre',formChambre.controls['numeroChambre'].errors)}}
+                </span>
+              </div>
+
+              <div class="col-md-8">
+                <label for="validationServer022" class="form-label">Détail</label>
+                <textarea [ngClass]="formChambre.controls['detailChambre'].errors?'is-invalid':'is-valid'" class="form-control" id="validationServer022" formControlName="detailChambre"  required=""></textarea>
+                <span *ngIf="formChambre.controls['detailChambre'].touched
+                  && formChambre.controls['detailChambre'].errors
+                  " class="text-danger">
+                  {{getErrorMessage('Detail',formChambre.controls['detailChambre'].errors)}}
+                </span>
+              </div>
+
+              <!--<div class="col-md-4">
+                <label for="validationServer044" class="form-label">Categrie du menu</label>
+                <select class="form-select" id="validationServer044" formControlName="categoryMenu" required="">
+                  <option *ngFor="let catmen of catmenu" value="{{catmen}}" (change)="getcurrentcat(catmen)">{{catmen.nameCat}}</option>
+                </select>
+                <span *ngIf="formChambre.controls['categoryMenu'].valueChanges
+                  && formChambre.controls['categoryMenu'].errors
+                  && formChambre.controls['categoryMenu'].errors['required']" class="text-danger">
+                  vous devez choisir un categry!
+                </span>
+              </div>-->
+
+              <div class="col-md-4">
+                <label for="validationServer02" class="form-label">Prix</label>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Ar</span>
+                  <input [ngClass]="formChambre.controls['prix'].errors?'is-invalid':'is-valid'"  type="number" class="form-control" id="validationServer02" formControlName="prix" required="" placeholder="en Ariary">
+                  <span class="input-group-text">.00</span>
+                </div>
+                <span  *ngIf="formChambre.controls['prix'].touched
+                  && formChambre.controls['prix'].errors
+                  " class="text-danger">
+                  {{getErrorMessage('Prix',formChambre.controls['prix'].errors)}}
+                </span>
+              </div>
+
+              <div class="col-md-4">
+                <label for="nombrePerson" class="form-label">Nombre de perssone</label>
+                <input [ngClass]="formChambre.controls['nombrePerson'].errors?'is-invalid':'is-valid'"  type="number" class="form-control" id="nombrePerson" formControlName="nombrePerson"  required="">
+                <span *ngIf="formChambre.controls['nombrePerson'].touched
+                  && formChambre.controls['nombrePerson'].errors
+                  " class="text-danger">
+                 {{getErrorMessage('NombrePerson',formChambre.controls['nombrePerson'].errors)}}
+                </span>
+              </div>
+
+              <div class="col-md-4">
+                <label for="nombrelit" class="form-label">Nombre de lit</label>
+                <input  [ngClass]="formChambre.controls['nombrelit'].errors?'is-invalid':'is-valid'" type="number" class="form-control" id="nombrelit" formControlName="nombrelit"  required="">
+                <span *ngIf="formChambre.controls['nombrelit'].touched
+                  && formChambre.controls['nombrelit'].errors
+                  " class="text-danger">
+                  {{getErrorMessage('Nombrelit',formChambre.controls['nombrelit'].errors)}}
+                </span>
+              </div>
+
+              <div class="col-md-3" *ngIf="formChambre.value.nombrelit>0">
+                <label for="tv" class="form-label">Tv canal+</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="tv" formControlName="tv" >
+                  </div>
+                  <div class="invalid-feedback">
+                    Please choose a username.
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3" *ngIf="formChambre.value.nombrelit>0">
+                <label for="wifi" class="form-label">Wifi</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="wifi" formControlName="wifi" >
+                  </div>
+                  <div class="invalid-feedback">
+                    Please choose a username.
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3" *ngIf="formChambre.value.nombrelit>0">
+                <label for="eauChaude" class="form-label">Eau Chaude</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="eauChaude" formControlName="eauChaude" >
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-3" *ngIf="formChambre.value.nombrelit>0">
+                <label for="climatiseur" class="form-label">Eau Chaude</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="climatiseur" formControlName="climatiseur" >
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="validationServerUsername" class="form-label">En Promotion</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="validationServerUsername" formControlName="promo" (click)="setValuPromo()">
+                  </div>
+                  <div class="invalid-feedback">
+                    Please choose a username.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class=""  *ngIf="this.formChambre.value.promo==true">
+                  <label class="form-label">Réduction:</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">-</span>
+                    <input [ngClass]="formChambre.controls['prixpromo'].errors?'is-invalid':'is-valid'" type="number" class="form-control" formControlName="prixpromo" required placeholder="en Ariary" >
+                    <span class="input-group-text">%</span>
+                  </div>
+                  <span *ngIf="formChambre.controls['prixpromo'].touched
+                  && formChambre.controls['prixpromo'].errors
+                  " class="text-danger">
+                  {{getErrorMessage('Prixpromo',formChambre.controls['prixpromo'].errors)}}
+                </span>
+                </div>
+              </div>
+
+              <div class="col-md-4" *ngIf="formChambre.value.nombrelit==0">
+                <label for="sonorisation" class="form-label">Sonorisation</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="sonorisation" formControlName="sonorisation" (click)="setValuSono()">
+                  </div>
+                  <div class="invalid-feedback">
+                    Please choose a username.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class=""  *ngIf="this.formChambre.value.sonorisation==true && formChambre.value.nombrelit==0">
+                  <label class="form-label">Prix avec sono</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">Ar</span>
+                    <input  [ngClass]="formChambre.controls['prixsono'].errors?'is-invalid':'is-valid'" type="number" class="form-control" formControlName="prixsono" required placeholder="en Ariary" >
+                    <span class="input-group-text">.00</span>
+                  </div>
+                  <span *ngIf="formChambre.controls['prixsono'].touched
+                  && formChambre.controls['prixsono'].errors
+                  " class="text-danger">
+                  {{getErrorMessage('Prixsono',formChambre.controls['prixsono'].errors)}}
+                </span>
+                </div>
+              </div>
+
+              <div class="col-md-4" *ngIf="formChambre.value.nombrelit==0 ">
+                <label for="decoration" class="form-label">Décoration</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="decoration" formControlName="decoration" (click)="setValuDeco()">
+                  </div>
+                  <div class="invalid-feedback">
+                    Please choose a username.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class=""  *ngIf="this.formChambre.value.decoration==true && formChambre.value.nombrelit==0">
+                  <label class="form-label">Prix avec deco</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">Ar</span>
+                    <input  [ngClass]="formChambre.controls['prixdeco'].errors?'is-invalid':'is-valid'" type="number" class="form-control" formControlName="prixdeco" required placeholder="en Ariary" >
+                    <span class="input-group-text">.00</span>
+                  </div>
+                  <span *ngIf="formChambre.controls['prixdeco'].touched
+                  && formChambre.controls['prixdeco'].errors
+                  " class="text-danger">
+                  {{getErrorMessage('Prixdeco',formChambre.controls['prixdeco'].errors)}}
+                </span>
+                </div>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
+                </div>
+              </div>
+
+              <div *ngIf="formChambre.value.id==0" class="col-12">
+                <button [disabled]="!formChambre.valid" class="btn btn-primary" type="submit" data-bs-dismiss="modal">Ajouter</button>
+              </div>
+              <div *ngIf="formChambre.value.id!=0" class="col-12">
+                <button [disabled]="!formChambre.valid" class="btn btn-primary" type="submit" data-bs-dismiss="modal">Modifier</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" data class="btn btn-secondary" data-bs-dismiss="modal" (click)="initializeFormgroup()">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--++++++++++++++++++++end++++++++++++++++++++++++++-->
+

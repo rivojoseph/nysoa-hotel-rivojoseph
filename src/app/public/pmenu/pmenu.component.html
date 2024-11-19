@@ -1,0 +1,84 @@
+<header>
+  <nav class="cc-navbar navbar navbar-expand-lg shadow fixed-top py-3">
+    <div class="container">
+      <a class="navbar-brand" routerLink="home">Ny Soa Hôtel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mx-auto me-auto ">
+          <li class="nav-item" *ngFor="let m of this.menus,let i=index" >
+            <a (click)="getCurrentMenu(i)" [ngClass]="currentMenu==i?'nav-link active':'nav-link'" routerLink="{{m.url}}" >{{m.name}}</a>
+          </li>
+          <li class="nav-item" *ngIf="tokenService.getToken()!=null && !tokenService.isCustomer()">
+            <a [ngClass]="tokenService.isCustomer()==true?'disabled':''" class="nav-link" [routerLink]="[('admin')]">Admin</a>
+          </li>
+        </ul>
+      </div>
+      <div class="">
+        <ul class="nav navbar-nav pull-right d-flexf">
+          <li class="position-relative me-0">
+            <a class="offcanvas text-light cc-panier" routerLink="panier2">
+              <span class="position-relative">
+                <i class="fa fa-hotel"></i>
+                <span class="badge rounded-pill bg-success text-light">{{cartService2.cart.length }}</span>
+              </span>
+              <span class="card-title position-relative">
+                <span class="badge bg-danger myFont">{{cartService2.cartData2.cost | number:'0.00'}} Ar</span>
+
+              </span>
+            </a>
+          </li>
+          <div class="dropdown-divider"></div>
+          <li class="position-relative me-0">
+            <a class="offcanvas text-light cc-panier" routerLink="panier">
+              <span class="position-relative">
+                <i class="fa fa-shopping-basket"></i>
+                <span class="badge rounded-pill bg-info text-bg-light">{{cartService.cart.length }}</span>
+              </span>
+              <span class="card-title position-relative">
+                <span class="badge bg-danger myFont">{{cartService.cartData.cost | number:'0.00'}} Ar</span>
+
+              </span>
+            </a>
+          </li>
+          <div class="dropdown-divider"></div>
+          <li class="nav-item" *ngIf="!tokenService.isAuthenticated()">
+            <a class="nav-link dropdown-toggle" [routerLink]="[('auth')]" >
+              <span class="fa fa-user-circle text-light">Login</span>
+            </a>
+          </li>
+
+          <div class="dropdown-divider"></div>
+          <li class="nav-item dropdown no-arrow" *ngIf="tokenService.isAuthenticated()">
+            <div class="nav-item dropdown no-arrow">
+              <a aria-expanded="false" data-bs-toggle="dropdown" href="#" class="dropdown-toggle nav-link">
+                <span class="d-none d-lg-inline me-2 text-gray-600 small">{{tokenService.username}}</span>
+                <img src="avatars/avatar1.jpeg" class="border rounded-circle img-profile">
+              </a>
+              <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                <a  routerLink="monespace/eprofile" class="dropdown-item">
+                <i class="fa fa-user fa-sm fa-fw me-2 text-gray-400"></i>Profile
+                </a>
+                <a  href="#" class="dropdown-item">
+                <i class="fa fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>Settings
+                </a>
+                <a href="#" class="dropdown-item">
+                  <i  class="fa fa-list fa-sm fa-fw me-2 text-gray-400">
+                    </i>Activity log
+                </a>
+                <div class="dropdown-divider"></div>
+                <a (click)="tokenService.clearToken()" class="dropdown-item cc-pointer">
+                  <i  class="fa fa-sign-out fa-sm fa-fw me-2 text-gray-400">
+                  </i>Logout
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+</header>
+

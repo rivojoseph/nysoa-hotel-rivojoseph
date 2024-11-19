@@ -1,0 +1,28 @@
+<div class="container py-5">
+  <div class="card">
+    <div class="card-title">Panier</div>
+    <div class="card-header">
+
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Name</th><th>Quantité</th><th>Prix</th>
+        </tr>
+        <tr *ngFor="let pi of caddyService.getCurrentCaddy()!.items.values()">
+          <td>{{pi.menu!.idMen}}</td>
+          <td>{{pi.menu!.name}}</td>
+          <td>{{pi.quantity}}</td>
+          <td>{{pi.prix}}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Total</td>
+          <td>{{caddyService.getTotal()}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="card-footer">
+
+    </div>
+  </div>
+</div>

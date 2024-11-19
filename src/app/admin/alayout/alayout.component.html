@@ -1,0 +1,91 @@
+<app-amenu></app-amenu>
+
+<!--<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column" >
+          <li class="nav-item" *ngFor="let m of this.menus,let i=index" >
+            <a (click)="getCurrentMenu(i)" [ngClass]="currentMenu==i?'nav-link active':'nav-link'" routerLink="{{m.url}}" >
+              <span data-feather=""></span>
+              {{m.name}}
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Saved reports</span>
+          <a class="link-secondary" href="#" aria-label="Add a new report">
+            <span  data-feather="plus-circle"></span>
+          </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Current month
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Last quarter
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Social engagement
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Year-end sale
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+      <router-outlet></router-outlet>
+
+    </main>
+  </div>
+</div>-->
+<div id="wrapper">
+  <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+    <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+      <div class="sidebar-brand-icon rotate-n-15"><i class="fa fa-database"></i></div>
+      <div class="sidebar-brand-text mx-3"><span>Brand</span></div>
+    </a>
+      <hr class="sidebar-divider my-0" />
+      <ul id="accordionSidebar" class="navbar-nav text-light">
+        <li class="nav-item" *ngFor="let m of menus,let i=index">
+          <a (click)="getCurrentMenu(i)" [ngClass]="currentSideMenu==i?'nav-link active':'nav-link'" routerLink="{{m.url}}">
+            <i [ngClass]="m.icon"></i>
+            <span>{{m.name}}</span>
+          </a>
+        </li>
+      </ul>
+      <div class="text-center d-none d-md-inline"><button id="sidebarToggle" class="btn rounded-circle border-0" type="button"></button></div>
+    </div>
+  </nav>
+
+  <div id="content-wrapper" class="container d-flex flex-column">
+    <div id="content">
+     <router-outlet></router-outlet>
+    </div>
+    <footer class="bg-white sticky-footer">
+      <div class="container my-auto">
+        <div class="text-center my-auto copyright"><span>Copyright © Brand 2023</span></div>
+      </div>
+    </footer>
+  </div>
+  <a class="border rounded d-inline scroll-to-top" (click)="onScrolToTop()"><i class="fa fa-angle-up"></i></a>
+</div>
+
+
+

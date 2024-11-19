@@ -1,0 +1,11 @@
+<div>
+  <h1>Calendrier des Réservation</h1>
+  <div class="btn-group-sm me-2" role="group" aria-label="First group">
+    <button type="button" class="btn btn-outline-primary" (click)="getCreated()">CREATED</button>
+    <button type="button" class="btn btn-outline-warning" (click)="getPending()">PENDING</button>
+    <button type="button" class="btn btn-outline-success" (click)="getDelivered()">DELIVERED</button>
+    <button type="button" class="btn btn-outline-danger" (click)="getCanceled()">CANCELED</button>
+  </div>
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+

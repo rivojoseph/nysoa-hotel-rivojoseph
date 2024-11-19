@@ -1,0 +1,350 @@
+<section class="cc-chambre py-5 merriweather">
+  <div class="container-xxl  py-5">
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h5 class="section-title ff-secondary text-center text-warning fw-normal">Liste des chambres</h5>
+        <h1 class="text-light mb-5">Most Popular Items</h1>
+      </div>
+
+      <div class="row g-4">
+
+        <div class="slider-wrap">
+          <div class="slider-main">
+            <div class="item" (click)="getAllChambre()">
+              <div class=" service-item rounded pt-3">
+                <div class="text-light p-4">
+                  <i class="fa fa-3x fa-hotel mb-4">
+                    <img src="">
+                  </i>
+                  <small class="text-light">Confort</small>
+                  <h5 class="">Tous les Chambres</h5>
+                </div>
+              </div>
+            </div>
+            <div class="item" *ngFor="let catch of catChambre" (click)="getlistChambreByCat(catch)">
+              <div class=" service-item rounded pt-3">
+                <div class="text-light p-4">
+                  <i class="fa fa-3x fa-hotel mb-4">
+                    <img src="">
+                  </i>
+                  <small class="text-light">{{catch.deco}}</small>
+                  <h5 class="">{{catch.nameCat}}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-area">
+            <button type="button" class="carousel-control-prev prev" appPrev>
+              <i class="carousel-control-prev-icon"></i>
+              Prev
+            </button>
+            <button type="button" class="carousel-control-next next" appNext>
+              <i class="carousel-control-next-icon"></i>
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 py-5" >
+
+        <div class="col-md-6 col-lg-4" *ngFor="let ch of listChambreByCat">
+          <div class="card clean-pricing-item">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h6.PNG" />
+            <div class="card-img-overlay text-start">
+              <h5>{{ch.prix*(1-(ch.prixpromo/100)) | number:'0.00'}} Ar/nuit</h5>
+              <p>pour {{ch.nombrePerson}} pers</p>
+            </div>
+            <div class="card-body">
+              <div class="card-body">
+                <h4 class="card-title">{{ch.categoryChambre.nameCat}} N° {{ch.numeroChambre}}</h4>
+                <p class="card-text">{{ch.detailChambre}}</p>
+                <div class="ribbon" *ngIf="ch.promo">
+                  <span>-{{ch.prixpromo}}% Meilleur prix!!</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button (click)="getDetail(ch)" class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDetailChambre">Apprenez Plus</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h2.PNG" />
+            <div class="card-img-overlay">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Occuper!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDetailChambre">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h3.PNG" />
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h4.PNG" />
+            <div class="card-img-overlay">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Occuper!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h5.PNG" />
+            <div class="card-img-overlay">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Occuper!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card clean-pricing-item">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h6.PNG" />
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+              <div class="ribbon">
+                <span>Best Value</span>
+              </div>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h7.PNG" />
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h8.PNG" />
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h9.PNG" />
+            <div class="card-img-overlay">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Occuper!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h10.PNG" />
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h11.PNG" />
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img class="card-img-top w-100 d-block" src="assets/imghotel/h12.PNG" />
+            <div class="card-img-overlay">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Occuper!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Lorem Ipsum</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in.</p>
+            </div>
+            <div><button class="btn btn-outline-primary btn-sm" type="button">Learn More</button></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!--modal detail-->
+      <div class="modal modal-xl  fade" id="modalDetailChambre" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-5">
+                  <img class="rounded img-fluid" src="assets/imghotel/h5.PNG" />
+                </div>
+                <div class="col-lg-7 myFont">
+
+                  <div class="bd-example">
+                    <nav>
+                      <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist" *ngIf="currentChambre">
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Détail</button>
+                        <button routerLink="dateoccupation/{{currentChambre.id}}" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Date d'occupation</button>
+                      </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent" *ngIf="currentChambre">
+                      <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <h3>{{currentChambre.categoryChambre.deco}} {{currentChambre.categoryChambre.nameCat}} N°:{{currentChambre.numeroChambre}}, prix: <span class="badge bg-warning text-dark">{{currentChambre.prix*(1-(currentChambre.prixpromo/100))|number:'0.00'}}AR</span></h3>
+                        <div class="info"><span class="text-muted">Nombre de Perssone:</span><span class="badge bg-info text-primary"> {{currentChambre.nombrePerson}}</span> , <span class="text-muted">nombre de lit:</span><span class="badge bg-info text-primary"> {{currentChambre.nombrelit}}</span></div>
+                        <p>{{currentChambre.detailChambre}}</p>
+                        <div class="row">
+                          <div class="col" *ngIf="currentChambre.decoration"><span class="text-primary">Prix décoration: {{currentChambre.prixdeco|number:'0.00'}}Ar</span></div>
+                          <div class="col" *ngIf="currentChambre.sonorisation"><span class="text-primary">Prix sonorisation: {{currentChambre.prixsono|number:'0.00'}}AR</span></div>
+                        </div>
+                        <div class="row">
+                          <div class="btn-group-sm me-2 py-3" role="group" aria-label="Second group">
+                            <button type="button" class="btn btn-outline-success" *ngIf="currentChambre.eauChaude">
+                              <strong><i class="text-success fa fa-check"></i>Eau chaude</strong>
+                            </button>
+                            <button type="button" class="btn btn-outline-success" *ngIf="currentChambre.tv">
+                              <strong><i class="text-success fa fa-check"></i>Tv</strong>
+                            </button>
+                            <button type="button" class="btn btn-outline-success" *ngIf="currentChambre.wifi">
+                              <strong><i class="text-success fa fa-check"></i>Wifi</strong>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <router-outlet></router-outlet>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                 <div class="cc-panel">
+                      <form class="row mt-3 mb-3" [formGroup]="formReserve" (ngSubmit)="setReservation()">
+                        <input type="number" formControlName="id"  hidden>
+                        <div class="col-md-3">
+                          <label for="validationServer01" class="form-label"  >Date d'arrivé</label>
+                          <input [ngClass]="problemDate1?'is-invalid':'is-valid'" type="date" class="form-control" id="validationServer01" (change)="checkDate1()" formControlName="datedarrive" >
+                        </div>
+                        <div class="col-md-3" *ngIf="!problemDate1">
+                          <label for="validationServer02" class="form-label ">Date du départ</label>
+                          <input  [ngClass]="problemDate2?'is-invalid':'is-valid'" type="date" class="form-control" id="validationServer02" (change)="checkDate2()" formControlName="datedepart" >
+                        </div>
+                        <div class="col-md-2" *ngIf="!problemDate2">
+                          <label for="validationServer03" class="form-label">Nombre de nuit</label>
+                          <input type="number" class="form-control bg-info" id="validationServer03" formControlName="nbrejour" readonly>
+                        </div>
+                        <div class="col-md-2">
+                          <label for="validationServer04" class="form-label">Nombre Adulte</label>
+                          <input type="number" class="form-control" id="validationServer04" formControlName="nbadulte" >
+                        </div>
+                        <div class="col-md-2">
+                          <label for="validationServer05" class="form-label">Nombre enfant</label>
+                          <input type="number" class="form-control" id="validationServer05" formControlName="nbenfant">
+                        </div>
+
+                        <div class="col-12 mt-3" *ngIf="currentChambre">
+                          <div class="row">
+                            <div class="col-md-4">
+                              <button [disabled]="!formReserve.valid" class="btn btn-primary" data-bs-dismiss="modal" type="submit">Resérvé</button>
+                              <p><span class="text-danger text-sm-start" *ngIf="valide">Les nombres des perssones doit-être <= {{currentChambre.nombrePerson}}</span></p>
+                            </div>
+                            <div class="col-md-8">
+                              <div class="cc-panel" >
+                                <div class="row py-2 mx-1">
+                                  <div class="col-md-6">
+                                    <div class="input-group mb-3" *ngIf="currentChambre">
+                                      <span class="input-group-text">Total</span>
+                                      <input type="text" class="form-control bg-warning" value="{{prixtotal*this.formReserve.get('nbrejour')?.value*(1-(currentChambre.prixpromo/100))|number:'0.00'}}" aria-label="Amount (to the nearest dollar)" readonly>
+                                      <span class="input-group-text">Ar</span>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6" [formGroup]="formGroup1" *ngIf="!currentChambre.nombrelit">
+                                    <div class="mb-3 form-check form-switch">
+                                      <input formControlName="isdeco" (ngModelChange)="operationdeco()"  class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked1">
+                                      <label class="form-check-label" for="flexSwitchCheckChecked1">+deco: {{currentChambre.prixdeco|number:'0.00'}}Ar</label>
+                                    </div>
+                                    <div class="mb-1 form-check form-switch">
+                                      <input formControlName="issono" (ngModelChange)="operationsono()"  class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                      <label class="form-check-label" for="flexSwitchCheckChecked">+sono: {{currentChambre.prixsono|number:'0.00'}} Ar</label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                      </form>
+                 </div>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onReetour()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--++++++END+++++++-->
+
+    </div>
+  </div>
+</section>
+
+

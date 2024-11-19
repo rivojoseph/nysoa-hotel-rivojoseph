@@ -1,0 +1,194 @@
+.btn {
+  border-radius: 0;
+  padding: 14px 38px;
+}
+.btn-brand{
+  color: #fff;
+  font-weight: 500;
+  border-color: #F58d17;
+  background-color: #F58d17;
+}
+.btn-brand:hover{
+  border-color: #c97507;
+  background-color:  #c97507;
+  color: #fff;
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.btn-outline-warning-brand{
+  color: #F58d17;
+  transition: 0.5s;
+  font-size: 1.25rem;
+  --bs-btn-color: #F58d17;
+  --bs-btn-border-color: #F58d17;
+  --bs-btn-hover-color: #150101;
+  --bs-btn-hover-bg: #f58e19;
+  --bs-btn-hover-border-color: #ffc107;
+  --bs-btn-focus-shadow-rgb: 255, 193, 7;
+  --bs-btn-active-color: #000;
+  --bs-btn-active-bg: #ffc107;
+  --bs-btn-active-border-color: #ffc107;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #ffc107;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #ffc107;
+  --bs-gradient: none;
+}
+.btn-outline-warning-brand:hover{
+  color: #f2f2f2;
+
+}
+.navbar-brand {
+  font-size: 30px;
+}
+/* Slider */
+.slide-1{
+  background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url("src/assets/images/slide 4.PNG");
+}
+.slide-2{
+  background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url("src/assets/images/slide 2.PNG");
+}
+.slide-3{
+  background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url("src/assets/images/slide 6.PNG");
+}
+.cc-menu{
+  background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url("src/assets/images/slide 1.PNG") center center fixed no-repeat;
+  height: 1200px;
+  background-size: cover;
+  font-family: 'Lucida Calligraphy',Serif;
+}
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+
+body {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  color: #5a5a5a;
+}
+
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+  margin-bottom: 1rem;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  bottom: 15rem;
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+  height: 50rem;
+}
+.carousel-item > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 32rem;
+}
+.section-bg img{
+  animation: imgRotate 50s linear infinite;
+}
+@keyframes imgRotate {
+  100%{
+    transform: rotate(360deg);
+  }
+}
+.burger{
+  display: flex; align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 0;
+}
+.burger .img{
+  flex: 1 1 200%;
+}
+.burger img{
+  width: 150%;
+  animation: c 5s linear infinite;
+}
+@keyframes c {
+  0%,100%{
+    transform: translateY(0px);
+  }
+  50%{
+    transform: translateY(30px);
+  }
+
+}
+
+/* MARKETING CONTENT
+-------------------------------------------------- */
+
+/* Center align the text within the three columns below the carousel */
+.marketing .col-lg-4 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.marketing h2 {
+  font-weight: 400;
+}
+/* rtl:begin:ignore */
+.marketing .col-lg-4 p {
+  margin-right: .75rem;
+  margin-left: .75rem;
+}
+/* rtl:end:ignore */
+
+
+/* Featurettes
+------------------------- */
+
+.featurette-divider {
+  margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+  font-weight: 300;
+  line-height: 1;
+  /* rtl:remove */
+  letter-spacing: -.05rem;
+}
+
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 40em) {
+  /* Bump up size of carousel content */
+  .carousel-caption p {
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .featurette-heading {
+    font-size: 50px;
+  }
+}
+
+@media (min-width: 62em) {
+  .featurette-heading {
+    margin-top: 7rem;
+  }
+}
+/*------------------------------*/
+

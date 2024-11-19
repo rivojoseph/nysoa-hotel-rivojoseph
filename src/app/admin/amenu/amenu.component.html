@@ -1,0 +1,46 @@
+<header>
+  <nav class="cc-navbar navbar navbar-expand-lg shadow py-3">
+    <div class="container">
+      <a class="navbar-brand" routerLink="/">Ny Soa Hôtel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item" *ngFor="let m of this.menus,let i=index" >
+            <a (click)="getCurrentMenu(i)" [ngClass]="currentMenu==i?'nav-link active':'nav-link'" routerLink="{{m.url}}" >{{m.name}}</a>
+          </li>
+        </ul>
+      </div>
+      <ul>
+        <div class="dropdown-divider"></div>
+        <li class="nav-item dropdown no-arrow" *ngIf="tokenService.isAuthenticated()">
+          <div class="nav-item dropdown no-arrow">
+            <a aria-expanded="false" data-bs-toggle="dropdown" href="#" class="dropdown-toggle nav-link">
+              <span class="d-none d-lg-inline me-2 text-gray-600 small">{{tokenService.username}}</span>
+              <img src="avatars/avatar1.jpeg" class="border rounded-circle img-profile">
+            </a>
+            <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+              <a  href="#" class="dropdown-item">
+                <i class="fa fa-user fa-sm fa-fw me-2 text-gray-400"></i>Profile
+              </a>
+              <a  href="#" class="dropdown-item">
+                <i class="fa fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>Settings
+              </a>
+              <a href="#" class="dropdown-item">
+                <i  class="fa fa-list fa-sm fa-fw me-2 text-gray-400">
+                </i>Activity log
+              </a>
+              <div class="dropdown-divider"></div>
+              <a (click)="tokenService.clearToken()" class="dropdown-item cc-pointer">
+                <i  class="fa fa-sign-out fa-sm fa-fw me-2 text-gray-400">
+                </i>Logout
+              </a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+

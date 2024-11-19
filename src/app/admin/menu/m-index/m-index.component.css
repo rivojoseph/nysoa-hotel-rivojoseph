@@ -1,0 +1,27 @@
+.table-responsive{
+  background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url("src/assets/images/slide 1.PNG") center center fixed no-repeat;
+}
+.table-danger {
+  --bs-table-bg: #f8d7da4f;
+  --bs-table-color: #fff;
+}
+.table-primary {
+  --bs-table-bg: #cfe2ff54;
+  --bs-table-color: #fff;
+}
+.table{
+  color: #f2f2f2;
+}
+.show-photo:hover{
+  cursor: pointer;
+}
+.image{
+  box-shadow: 0px 2px 10px rgb(0 0 0 / 38%);
+}
+
+/*++++++++++++++++++++*/
+.btn-modif-phpto{
+  position: absolute;
+  left: 35%;
+}
+

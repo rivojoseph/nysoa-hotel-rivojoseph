@@ -1,0 +1,165 @@
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">Liste des Réservations</h3><button class="btn btn-outline-info btn-sm" (click)="retour()"><i class="fa fa-backward" Retour></i></button>
+  <div class="row">
+    <div class="col-lg-5 col-xl-5">
+      <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h6 class="text-primary fw-bold m-0" *ngIf="appUser">Client Info: {{appUser.name!}} {{appUser.prenom!}}, tél: {{appUser.numerotelephone!}} </h6>
+          <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
+            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+              <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
+              <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else here</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive table mt-2" role="grid" aria-describedby="dataTable_info">
+            <table id="dataTable" class="table my-0">
+              <thead>
+              <tr>
+                <th>Date</th>
+                <th>Statu</th>
+                <th>total</th>
+                <th>Cart</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr *ngFor="let r of reservations1">
+                <td><i class="fa fa-calendar-check-o me-2" width="30" height="30"></i>{{r.dateRes}}</td>
+                <td>{{r.status}}</td>
+                <td>{{r.total | number:'0.00'}} Ar</td>
+                <td>
+                  <button class="btn btn-success btn-sm" (click)="getMenuItem(r.idRes)" >{{r.chambreItems.length}} Detail</button>
+                </td>
+              </tr>
+              </tbody>
+
+              <tfoot>
+              <tr>
+                <th>Date</th>
+                <th>Statu</th>
+                <th>total</th>
+                <th>Cart</th>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-md-6 align-self-center">
+              <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to {{numberOfElements}} of {{totalElements}}</p>
+            </div>
+            <div class="col-md-6">
+              <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                <ul class="pagination" *ngIf="totalPages">
+                  <li class="page-item" [ngClass]="currentePage==0?'disabled':''" >
+                    <a class="page-link clickable" aria-label="Previous" (click)="onPrev()">
+                      <span aria-hidden="true">«</span>
+                    </a>
+                  </li>
+                  <li class="page-item" [ngClass]="i==currentePage?'active':''" *ngFor="let p of pages; let i=index">
+                    <a class="page-link clickable" (click)="onPage(i)">{{i+1}}</a>
+                  </li>
+                  <li class="page-item" [ngClass]="currentePage+1==totalPages?'disabled':''">
+                    <a class="page-link clickable" aria-label="Next" (click)="onNext()">
+                      <span aria-hidden="true">»</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7 col-xl-7">
+      <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h6 class="text-primary fw-bold m-0">Facture</h6>
+          <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
+            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+              <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
+              <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else here</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div *ngIf="reservation">
+            <div class="reflow-order-status">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card shadow border-start-1" style="height: 142px">
+                    <div class="card-body">
+                      <h4>Order : {{reservation.idRes}}</h4>
+                      <div class="ref-order-line ref-status"><b>Status:</b> {{reservation.status}}</div>
+                      <div class="ref-order-line ref-created"><b>Created:</b> {{reservation.dateRes|date:'dd/MM/yyyy'}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card shadow border-start-1 ">
+                    <div class="card-body">
+                      <h4>Customer Details</h4>
+                      <div class="ref-order-line ref-customer-name"><b>Name:</b> {{appUser.name}} {{appUser.prenom}}</div>
+                      <div class="ref-order-line ref-customer-email"><b>Email:</b> {{appUser.email}}</div>
+                      <div class="ref-order-line ref-customer-email"><b>Tél:</b> {{appUser.numerotelephone}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-5">
+                  <div class="card shadow border-start-1 ">
+                    <div class="card-body">
+                      <h4>Shipping</h4>
+                      <div class="ref-order-line ref-shipping-method"><b>Shipping Method</b><span>Worldwide Flat Rate</span></div>
+                      <div class="ref-order-line ref-shipping-address"><b>Shipping Address</b><span>Address: Baker Street 4</span><span>City: London</span><span>Postal Code: 987654</span><span>Country: United Kingdom</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-7 ">
+                  <div class="card shadow border-start-1 ">
+                    <div class="card-body">
+                      <h4>Order Summary</h4>
+
+                      <div class="d-flex justify-content-lg-between border-bottom" *ngFor="let ri of reservation.chambreItems">
+                        <div class="ref-name">
+                          <p style="    margin-bottom: 0rem;">{{ri.nombrenuit}} × {{ri.chambre.categoryChambre.nameCat}} N°{{ri.chambre.numeroChambre}}</p>
+                          <p><small style="font-size: 13px;">(Du {{ri.start|date:'dd/MM/yyyy'}} au {{ri.end|date:'dd/MM/yyyy'}})</small></p>
+                        </div>
+                        <div class="ref-price">
+                          <b>{{ri.amount | number:'0.00'}} Ar</b>
+                          <p><small>(({{ri.nombrenuit}} × {{ri.prix|number:'0.00'}}Ar) - {{ri.discout}}%)</small></p>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-lg-between">
+                        <div class="ref-order-line ref-line-item">Subtotal</div>
+                        <div class=""><span class="ref-price">{{reservation.total |number: '0.00'}} Ar</span></div>
+                      </div>
+                      <div class="d-flex justify-content-lg-between">
+                        <div class="ref-name">Testing Coupon</div>
+                        <div class=""><span class="ref-price">-0.00 Ar</span></div>
+                      </div>
+                      <hr />
+                      <div class="d-flex justify-content-lg-between">
+                        <div class="ref-order-line ref-line-item">Total</div>
+                        <div><b><span class="ref-price">{{reservation.total |number: '0.00'}} Ar</span></b></div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

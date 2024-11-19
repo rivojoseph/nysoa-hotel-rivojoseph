@@ -1,0 +1,254 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Gérer les menus</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+      <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+    </div>
+    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+      <span data-feather="calendar"></span>
+      This week
+    </button>
+  </div>
+</div>
+<div *ngIf="errormesage" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <span class="text-info">"Connection au serveur échouer!"</span>
+  <p>{{errormesage}}</p>
+  <div class="bd-example">
+
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-secondary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-danger" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-warning" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-info" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-dark" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div>
+  <button *ngIf="currenteCat" type="button" class="btn btn-sm btn-outline-info me-2"  data-bs-toggle="modal" data-bs-target="#editmenuadmin">Nouveau menu</button>
+  <div class="btn-group me-2">
+    <button *ngFor="let c of listeCat; let i=index" (click)="onSelectCat(c)" [ngClass]="currenteCat==c?'active':''" type="button" class="btn btn-sm btn-outline-success">{{c.nameCat}}</button>
+  </div>
+</div>
+
+<ng-template #info1>
+  <div class="alert alert-primary alert-dismissible fade show mt-5" role="alert">
+    Séléctionner un category de menu pour le geré
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</ng-template>
+<div *ngIf="menulist; else info1">
+  <div class="table-responsive mt-3">
+    <table class="table table-hover py-5">
+      <thead>
+      <tr>
+        <th><h6 class="badge rounded-pill bg-info text-dark">{{totalElement}}</h6></th>
+        <th scope="col">Cheque</th>
+        <th scope="col">Photo</th>
+        <th></th>
+        <th scope="col">Categorie</th>
+        <th scope="col">Prix</th>
+        <th scope="col">selected</th>
+        <th scope="col">Prixpromo</th>
+        <th scope="col">Promo</th>
+        <th scope="col">valable</th>
+        <th scope="col">edit</th>
+        <th scope="col">delete</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr  [ngClass]="!m.vailable?'table-danger ':'table-primary'" *ngFor="let m of menulist" >
+        <th scope="row">{{m.name}}</th>
+        <td>
+          <input type="checkbox" class="form-check-input" id="{{m.idMen}}">
+        </td>
+        <td>
+          <img  class="show-photo" style="height: 38px" src="{{menuSevice.host+'/photoMenu/'+m.idMen+'?ts='+getTs()}}">
+        </td>
+        <td>
+          <div class="btn-modif-phpto">
+            <button class="btn btn-sm btn-outline-light" (click)="getphotomenu(m)" data-bs-toggle="modal" data-bs-target="#modifphotomenu">
+              <span class="fa fa-edit"></span>
+            </button>
+          </div>
+        </td>
+        <td>{{m.categoryMenu!.nameCat}}</td>
+        <td>{{m.prix  |  number: '0.00' }} Ar</td>
+        <td><i class="bi bi-heart"></i>{{m.selected}}</td>
+        <td>-{{m.prixpromo |  number: '0.00' }}%</td>
+        <td>{{m.promo}}</td>
+        <td>
+          <button [disabled]="!tokenService.isAdmin()" (click)="onHandleModifValablbe(m)" [ngClass]="m.vailable?'btn btn-success btn-sm':'btn btn-danger btn-sm'">
+            <span *ngIf="m.vailable">Oui</span>
+            <span *ngIf="!m.vailable">Non</span>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-outline-info " data-bs-toggle="modal" data-bs-target="#editmenuadmin" (click)="onHandleEdit(m)">
+            <i class="fa fa-edit"></i>
+          </button>
+        </td>
+        <td>
+          <button [disabled]="!tokenService.isAdmin()" class="btn btn-outline-danger" (click)="onHandleDelete(m)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--***********modal modif------------>
+<div class="modal fade " id="editmenuadmin" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true" *ngIf="currenteCat">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="formEditMenu.value.idMen!=0" class="modal-title" id="exampleModalLabel">Modifier le menu dans le categorie: <span class="text-primary">{{currenteCat!.nameCat}}</span> </h5>
+        <h5 *ngIf="formEditMenu.value.idMen==0" class="modal-title" id="exampleModalLabelAjout">Ajout menu dans le categorie: <span class="text-primary">{{currenteCat!.nameCat}}</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="initializeFormgroup()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+             {{formEditMenu.controls['prix'].errors | json}}
+            <form class="row g-3" [formGroup]="formEditMenu" (ngSubmit)="onHandleModifMenu()">
+              <input type="number" formControlName="idMen" hidden>
+              <div class="col-md-4">
+                <label for="validationServer01" class="form-label">Nom menu</label>
+                <input type="text" [ngClass]="formEditMenu.controls['name'].errors?'is-invalid':'is-valid'" class="form-control" id="validationServer01"  formControlName="name" required="">
+                <span *ngIf="formEditMenu.controls['name'].errors
+                  && formEditMenu.controls['name'].touched" class="text-danger">
+                  {{getErrorMessage('Nom',formEditMenu.controls['name'].errors)}}
+                </span>
+              </div>
+              <div class="col-md-8">
+                <label for="validationServer022" class="form-label">Les ingredients</label>
+                <textarea [ngClass]="formEditMenu.controls['ingredient'].errors?'is-invalid':'is-valid'"  class="form-control" id="validationServer022" formControlName="ingredient"  required=""></textarea>
+                <span *ngIf="formEditMenu.controls['ingredient'].errors
+                    && formEditMenu.controls['ingredient'].touched"
+                   class="text-danger">
+                   {{getErrorMessage('Ingredient',formEditMenu.controls['ingredient'].errors)}}
+                </span>
+              </div>
+
+
+              <div class="col-md-12">
+                <label for="validationServer02" class="form-label">Prix</label>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Ar</span>
+                  <input [ngClass]="formEditMenu.controls['prix'].errors?'is-invalid':'is-valid'" type="number" class="form-control" id="validationServer02" formControlName="prix" required="" placeholder="en Ariary">
+                  <span class="input-group-text">.00</span>
+                </div>
+                <span  *ngIf="formEditMenu.controls['prix'].touched
+                  && formEditMenu.controls['prix'].errors
+                  " class="text-danger">
+                   {{getErrorMessage('Prix',formEditMenu.controls['prix'].errors)}}
+                </span>
+              </div>
+
+              <div class="col-md-4">
+                <label for="validationServerUsername" class="form-label">En Promotion</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="validationServerUsername" formControlName="promo" (click)="setvaluPromo()" >
+                  </div>
+                  <div class="invalid-feedback">
+                    Please choose a username.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class=""  *ngIf="this.formEditMenu.value.promo==true">
+                  <label class="form-label">Prix promo:</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">-</span>
+                    <input [ngClass]="formEditMenu.controls['prixpromo'].errors?'is-invalid':'is-valid'" type="number" class="form-control" placeholder="en Ariary"  formControlName="prixpromo">
+                    <span class="input-group-text">%</span>
+                  </div>
+                  <span  *ngIf="formEditMenu.controls['prixpromo'].touched
+                  && formEditMenu.controls['prixpromo'].errors
+                  " class="text-danger">
+                   {{getErrorMessage('Prixpromo',formEditMenu.controls['prixpromo'].errors)}}
+                </span>
+                </div>
+              </div>
+
+              <div class="col-12" *ngIf="formEditMenu.value.idMen!=0">
+                <button [disabled]="!formEditMenu.valid" class="btn btn-primary" type="submit" data-bs-dismiss="modal">Modifier</button>
+              </div>
+              <div class="col-12" *ngIf="formEditMenu.value.idMen==0">
+                <button [disabled]="!formEditMenu.valid" class="btn btn-primary" type="submit" data-bs-dismiss="modal">Ajouter</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="initializeFormgroup()">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--***********++++++++++++------------>
+
+<!--***********modal modifPhoto------------>
+<div *ngIf="menu" class="modal fade" id="modifphotomenu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLiveLabel">{{menu.name}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="initialValuUpload()"></button>
+      </div>
+      <div class="modal-body">
+        <img class="img-thumbnail img-fluid image  me-2 mx-2" style="" src="{{menuSevice.host+'/photoMenu/'+menu.idMen+'?ts='+getTs()}}">
+      </div>
+      <div class="row me-2 mx-2">
+        <div class="col-md-4">
+          <button class="btn btn-outline-success" (click)="onEdit()">
+            <span class="fa fa-edit"></span>
+          </button>
+        </div>
+        <div class="col-md-8" *ngIf="ediPhoto==true">
+            <input (change)="onChange($event)" type="file" class="form-control form-control-sm" aria-label="Small file input example">
+        </div>
+
+        <div class="progress mb-3">
+          <div class="progress-bar bg-success " [ngClass]="'w-'+progre" role="progressbar"  aria-valuemin="0" aria-valuemax="100">{{progre}}%</div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="initialValuUpload()">Close</button>
+        <button (click)="upload()" type="button" class="btn btn-primary">upload photo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--***********++++++++++++------------>

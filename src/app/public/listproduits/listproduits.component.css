@@ -1,0 +1,32 @@
+section {
+  display: block;
+}
+.row {
+  margin: 0 auto;
+  max-width: 62.5rem;
+  width: 100%;
+}
+@media only screen and (min-width: 64.0625em){
+  .large-12 {
+    width: 100%;
+  }
+}
+
+
+@media only screen and (min-width: 64.0625em){
+  .column, .columns {
+    position: relative;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    float: left;
+  }
+}
+#demos .owl-carousel {
+  margin: 2rem 0;
+}
+#demos .owl-carousel .item {
+  height: 10rem;
+  background: #befb46;
+  padding: 1rem;
+}
+

@@ -1,0 +1,79 @@
+  <main class="page shopping-cart-page">
+    <section class="clean-block clean-cart dark">
+      <div class="container marge-panier">
+        <div class="block-heading">
+          <h2 class="text-info">Shopping Cart</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+        </div>
+        <div class="content">
+          <div class="row g-0">
+            <div class="col-md-12 col-lg-8">
+              <div class="items">
+
+                <div class="card" *ngIf="cart.length==0">
+                  <div class="card-header"><span class="text-info">Info</span> </div>
+                  <div class="card-body">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      Votre panier est vide! <a (click)="navgateByUrl()" class="btn btn-outline-info">faire une commande</a>. Appuier sur le bouton pour remplier votre panier!.
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="product" *ngFor="let c of cart">
+                  <div class="row justify-content-center align-items-center">
+                    <div class="col-md-3">
+                      <div class="product-image">
+                        <img  class="show-photo" style="height: 130px" src="{{menuService.host+'/photoMenu/'+c.menu.idMen+'?ts='+getTs()}}">
+                      </div>
+                    </div>
+                    <div class="col-md-5 product-info"><span class="product-name text-primary">{{c.menu.name}}</span>
+                      <div class="product-specs">
+                        <div>
+                          <span class="text-info">Les ingredients:&nbsp;</span>
+                          <p class="value">{{c.menu.ingredient}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-2 quantity">
+                      <label class="form-label d-none d-md-block" for="quantiter">Quantity</label>
+                      <div class="">
+                        <div class="d-flex justify-content-center">
+                          <div class="btn-group me-2" role="group" aria-label="Second group">
+                            <button (click)="deleteMenu(c.menu)" type="button" class="btn btn-secondary">-</button>
+                            <input id="quantiter" class="form-control quantity-input" [value]="c.number" disabled>
+                            <button (click)="addMenu(c.menu)" type="button" class="btn btn-secondary">+</button>
+                          </div>
+
+                        </div>
+                      </div>
+                      <strong class="text-danger">Effacer</strong>
+                    </div>
+                    <div class="col-6 col-md-2 price"><span>{{c.menu.prix!*(1-(c.menu.prixpromo!/100))*c.number | number:'0.00'}}&nbsp;Ar</span></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+              <div class="summary">
+                <h3>Summary</h3>
+                <h4 class="cc-h4"><span class="text">Subtotal</span><span class="price">{{cartService!.cartData.cost | number:'0.00'}}&nbsp;Ar</span></h4>
+                <h4><span class="text">Discount</span><span class="price">0 Ar</span></h4>
+                <h4><span class="text">Shipping</span><span class="price">0 Ar</span></h4>
+                <h4><span class="text">Total</span><span class="price">{{cartService!.cartData.cost | number:'0.00'}}&nbsp;Ar</span></h4>
+                <button [disabled]="cart.length==0" class="btn btn-primary btn-lg d-block w-100" type="button" (click)="creatCommande(cart)">
+                  <i class="fa  fa-money"></i>
+                  Commander maintenant
+                </button>
+                <button type="button" (click)="clearCart()" class="btn btn-danger btn-lg d-block w-100"><i class="fa  fa-trash"></i> Vider le panier</button>
+                <a *ngIf="!tokenService.getToken()" class="text-primary" routerLink="/auth" >connectez-vous pour passer les conmmandes!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+

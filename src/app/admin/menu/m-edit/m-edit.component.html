@@ -1,0 +1,104 @@
+
+
+<div class="modal fade " id="editmenuadmin" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modifier le menu</h5>
+        {{formMenu.value | json}}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+
+            <form class="row g-3" [formGroup]="formMenu" (ngSubmit)="onHandleModifMenu()">
+
+              <div class="col-md-4">
+                <label for="validationServer01" class="form-label">Nom menu</label>
+                <input type="text" class="form-control" id="validationServer01"  formControlName="name" required="">
+                <span *ngIf="formMenu.controls['name'].touched
+                  && formMenu.controls['name'].errors
+                  && formMenu.controls['name'].errors['required']" class="text-danger">
+                  un nom est obligatiore!
+                </span>
+              </div>
+
+              <div class="col-md-8">
+                <label for="validationServer022" class="form-label">Les ingredients</label>
+                <textarea  class="form-control" id="validationServer022" formControlName="ingredient"  required=""></textarea>
+                <span *ngIf="formMenu.controls['ingredient'].touched
+                  && formMenu.controls['ingredient'].errors
+                  && formMenu.controls['ingredient'].errors['required']" class="text-danger">
+                  au moins un ingredient est ajouter!
+                </span>
+              </div>
+
+              <div class="col-md-4">
+                <label for="validationServer044" class="form-label">Categrie du menu</label>
+                <select class="form-select" id="validationServer044" formControlName="categoryMenu" required="">
+                  <option *ngFor="let catmen of listeCat" value="{{catmen.idCatM}}" (change)="getcurrentcat(catmen)">{{catmen.nameCat}}</option>
+                </select>
+                <span *ngIf="formMenu.controls['categoryMenu'].valueChanges
+                  && formMenu.controls['categoryMenu'].errors
+                  && formMenu.controls['categoryMenu'].errors['required']" class="text-danger">
+                  vous devez choisir un categry!
+                </span>
+              </div>
+
+              <div class="col-md-8">
+                <label for="validationServer02" class="form-label">Prix</label>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Ar</span>
+                  <input type="number" class="form-control" id="validationServer02" formControlName="prix" required="" placeholder="en Ariary">
+                  <span class="input-group-text">.00</span>
+                </div>
+                <span  *ngIf="formMenu.controls['prix'].statusChanges
+                  && formMenu.controls['prix'].errors
+                  && formMenu.controls['prix'].errors['required']" class="text-danger">
+                  Entrer un montant entre 100AR et 600 000AR
+                </span>
+              </div>
+
+              <div class="col-md-4">
+                <label for="validationServerUsername" class="form-label">En Promotion</label>
+                <div class="input-group has-validation">
+                  <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="validationServerUsername" formControlName="promo" >
+                  </div>
+                  <div class="invalid-feedback">
+                    Please choose a username.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class=""  *ngIf="this.formMenu.value.promo==true">
+                  <label class="form-label">Prix promo:</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">Ar</span>
+                    <input type="number" class="form-control" required placeholder="en Ariary"  formControlName="prixpromo">
+                    <span class="input-group-text">.00</span>
+                  </div>
+                </div>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
+                </div>
+              </div>
+
+              <div class="col-12">
+                <button [disabled]="!formMenu.valid" class="btn btn-primary" type="submit" data-bs-dismiss="modal">Ajouter</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">Liste des Clients</h3>
+  <div class="card shadow">
+    <div class="card-header py-3">
+      <div class="row">
+        <div class="col-md-1">
+          <p class="text-primary m-0 fw-bold">Client Info</p>
+        </div>
+        <div class="col-md-11">
+          <div>
+            <div class="btn-group me-2">
+              <button *ngFor="let r of roles; let i=index" (click)="onSelectRole(r)" [ngClass]="currenteRole==r?'active':''" type="button" class="btn btn-sm btn-outline-success">{{r.roleName}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form class="row" [formGroup]="formParametre">
+        <div class="col-md-6 text-nowrap">
+          <div *ngIf="currenteRole" id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
+            <label class="form-label">Show <select class="d-inline-block form-select form-select-sm"  formControlName="size" (change)="onSelectRole(currenteRole)">
+            <option value="10" selected>10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select></label></div>
+        </div>
+        <div class="col-md-6">
+          <div id="dataTable_filter" class="text-md-end dataTables_filter"><label class="form-label"><input class="form-control form-control-sm" type="search" aria-controls="dataTable" placeholder="Search" /></label></div>
+        </div>
+      </form>
+      <div class="table-responsive table mt-2" role="grid" aria-describedby="dataTable_info">
+        <table id="dataTable" class="table my-0">
+          <thead>
+          <tr>
+            <th>Nom et Prenom</th>
+            <th>Username</th>
+            <th>Tél</th>
+            <th>Email</th>
+            <th>Adresse</th>
+            <th>Status</th>
+            <th><span class="text-danger" *ngIf="counts==0">{{counts}} commande!</span> </th>
+            <th><span class="text-danger" *ngIf="counts2==0">{{counts2}} reservation!</span> </th>
+            <th></th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr *ngFor="let u of appUsers">
+            <td><img class="rounded-circle me-2" width="30" height="30" src="avatars/avatar1.jpeg" />{{u.name}} {{u.prenom}}</td>
+            <td>{{u.username}}</td>
+            <td>{{u.numerotelephone}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.adresse}}</td>
+            <td>{{u.active}}</td>
+            <td>
+              <button class="btn btn-outline-info btn-sm" (click)="getCount(u)" >Commande</button>
+            </td>
+            <td>
+              <button class="btn btn-outline-info btn-sm" (click)="getCount2(u)" >Réservation</button>
+            </td>
+            <td>
+              <button class="btn btn-outline-info btn-sm" (click)="getDetail(u)" >Detail</button>
+            </td>
+            <td>
+              <button class="btn btn-outline-danger btn-sm" [disabled]="!auth.isAdmin()" >Blocker</button>
+            </td>
+          </tr>
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <th>Nom et Prenom</th>
+              <th>Username</th>
+              <th>Tél</th>
+              <th>Email</th>
+              <th>Adresse</th>
+              <th>Status</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-md-6 align-self-center">
+          <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to {{numberOfElements}} of {{totalElements}}</p>
+        </div>
+        <div class="col-md-6">
+          <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+            <ul class="pagination" *ngIf="totalPages">
+              <li class="page-item" [ngClass]="currentePage==0?'disabled':''" >
+                <a class="page-link clickable" aria-label="Previous" (click)="onPrev()">
+                  <span aria-hidden="true">«</span>
+                </a>
+              </li>
+              <li class="page-item" [ngClass]="i==currentePage?'active':''" *ngFor="let p of pages; let i=index">
+                <a class="page-link clickable" (click)="onPage(i)">{{i+1}}</a>
+              </li>
+              <li class="page-item" [ngClass]="currentePage+1==totalPages?'disabled':''">
+                <a class="page-link clickable" aria-label="Next" (click)="onNext()">
+                  <span aria-hidden="true">»</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

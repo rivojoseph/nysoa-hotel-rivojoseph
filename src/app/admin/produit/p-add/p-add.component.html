@@ -1,0 +1,60 @@
+{{this.formProduct.value | json}}
+<div class="card">
+  <div class="card-header">Ajout Produit</div>
+  <div class="card-body">
+    <form [formGroup]="formProduct" (ngSubmit)="oneHandleProduct()">
+      <div *ngIf="Cat" >
+        <label class="form-label" for="selectedecategory">Veuillez choisir un categorie de produit!</label>
+        <select  class="form-select" id="selectedecategory" formControlName="category" required>
+          <option value="{{c}}" *ngFor="let c of Cat!  as async">{{c.name}}</option>
+        </select>
+      </div>
+
+      <div class="">
+        <label class="form-label">Nom du pruduit:</label>
+        <input class="form-control" type="text" formControlName="name" required>
+      </div>
+      <div class="">
+        <label class="form-label">Déscription:</label>
+        <textarea class="form-control"  formControlName="description" required></textarea>
+      </div>
+      <div class="">
+        <label class="form-label">Quantité:</label>
+        <input class="form-control" type="number" formControlName="quantity" required>
+      </div>
+      <div class="">
+        <label class="form-label">Prix unitaire:</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">Ar</span>
+          <input type="number" class="form-control" formControlName="price" required placeholder="en Ariary">
+          <span class="input-group-text">.00</span>
+        </div>
+      </div>
+      <div class="form-control">
+        <div class="mb-3 form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" formControlName="promo" >
+          <label class="form-check-label" for="flexSwitchCheckChecked">En promotion</label>
+        </div>
+
+        <div class="" *ngIf="this.formProduct.value.promo==true">
+          <label class="form-label">Prix promo:</label>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Ar</span>
+            <input type="number" class="form-control" formControlName="prixpromo" required placeholder="en Ariary">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-control">
+        <div class="mb-3 form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked2" formControlName="available" >
+          <label class="form-check-label" for="flexSwitchCheckChecked2">Valable?</label>
+        </div>
+      </div>
+      <div class="form-control" *ngIf="Cat">
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+      </div>
+
+    </form>
+  </div>
+</div>

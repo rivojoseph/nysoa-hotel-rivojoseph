@@ -1,0 +1,63 @@
+.btn {
+  border-radius: 0;
+  padding: 14px 38px;
+}
+.btn-brand{
+  color: #fff;
+  font-weight: 500;
+  border-color: #F58d17;
+  background-color: #F58d17;
+}
+.btn-brand:hover{
+  border-color: #c97507;
+  background-color:  #c97507;
+  color: #fff;
+}
+.btn-outline-warning-brand{
+  color: #F58d17;
+  transition: 0.5s;
+  font-size: 1.25rem;
+  --bs-btn-color: #F58d17;
+  --bs-btn-border-color: #F58d17;
+  --bs-btn-hover-color: #150101;
+  --bs-btn-hover-bg: #f58e19;
+  --bs-btn-hover-border-color: #ffc107;
+  --bs-btn-focus-shadow-rgb: 255, 193, 7;
+  --bs-btn-active-color: #000;
+  --bs-btn-active-bg: #ffc107;
+  --bs-btn-active-border-color: #ffc107;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #ffc107;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #ffc107;
+  --bs-gradient: none;
+}
+.btn-outline-warning-brand:hover{
+  color: #f2f2f2;
+
+}
+/*+++++++++++++++++++++++++++++++*/
+img{
+  width: 100%;
+}
+/*++++++++++++++++++++++++++++++++*/
+.section-bg{
+  background: linear-gradient(rgba(1, 31, 69, 0.87), rgba(50, 42, 42, 0.87)), url("src/assets/images/slide 5.PNG");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #f2f2f2;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: -76px;
+}
+.section-bg img{
+  animation: imgRotate 50s linear infinite;
+}
+@keyframes imgRotate {
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+

@@ -9,5 +9,54 @@
 </head>
 <body>
   <app-root></app-root>
+ <script>
+   /*(function ($) {
+     "use strict";
+     //wow js
+     new WOW().init();
+     //counter up
+     $('[data-toggle="counter-up"]').counterUp({
+       delay:10,
+       time:2000
+     })
+     $(".testimonial-carousel").owlCarousel({
+       autoplay:true,
+       smartSpeed:1000,
+       center:true,
+       margin:24,
+       dots:true,
+       loop:true,
+       nav:false,
+       responsive:{
+         0:{
+           items:1
+         },
+         768:{
+           items:2
+         },
+         992:{
+           items:3
+         }
+       }
+     })
+   })(jQuery);
+   $(document).ready(function() {
+     var owl = $('.owl-carousel');
+     owl.owlCarousel({
+       items: 4,
+       loop: true,
+       margin: 10,
+       autoplay: true,
+       autoplayTimeout: 1000,
+       autoplayHoverPause: true
+     });
+     $('.play').on('click', function() {
+       owl.trigger('play.owl.autoplay', [1000])
+     })
+     $('.stop').on('click', function() {
+       owl.trigger('stop.owl.autoplay')
+     })
+   })*/
+ </script>
 </body>
 </html>

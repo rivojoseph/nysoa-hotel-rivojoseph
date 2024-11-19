@@ -1,0 +1,353 @@
+<section class=" py-5 merriweather">
+  <div class="container-xxl  py-5">
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h5 class="section-title ff-secondary text-center text-warning fw-normal">Food Menu</h5>
+        <h1 class=" mb-5">Most Popular Items</h1>
+      </div>
+
+
+      <div class="row g-4">
+
+        <div class="slider-wrap">
+          <div class="slider-main">
+            <div class="item" >
+              <div class="service-item rounded pt-3" (click)="getALlMenus()">
+                <div class="p-4">
+                  <i class="bi-card-image text-primary mb-4">
+                    <img src="assets/icons/m129.png" style="height: 32px; ">
+                  </i>
+                  <small class="text-body">Popular</small>
+                  <h5 class="">Tous les Menus</h5>
+                </div>
+              </div>
+            </div>
+            <div class="item" *ngFor="let catmen of catmenu">
+              <div class="service-item rounded pt-3" (click)="onSelectCat(catmen)">
+                <div class="p-4">
+                  <i class="bi-card-image text-primary mb-4">
+                    <img src="assets/icons/{{catmen.photoName}}" style="height: 32px; ">
+                  </i>
+                  <small class="text-body">{{catmen.deco}}</small>
+                  <h5 class="">{{catmen.nameCat}}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-area">
+            <button type="button" class="carousel-control-prev prev" appPrev>
+              <i class="carousel-control-prev-icon"></i>
+              < Prev
+            </button>
+            <button type="button" class="carousel-control-next next" appNext>
+              <i class="carousel-control-next-icon"></i>
+              Next >
+            </button>
+          </div>
+        </div>
+      </div>
+<!---------------------liste-------------------------->
+      <div class="row g-4 py-5" >
+
+        <div class="col-lg-6 lightbox-img " *ngFor="let m of menulist">
+          <div class="d-flex align-items-center ">
+            <div class="product-image">
+              <div class="cc-position" *ngIf="m.promo==true">
+                <span class="badge rounded-pill bg-danger">Promo! -{{m.prixpromo}}%</span>
+              </div>
+            </div>
+            <img style="width: 200px" src="assets/imgmenu/m.PNG" alt="" class="img-fluid flex-shrink-0 rounded img-thumbnail image">
+
+            <div class="w-100 d-flex flex-column text-start ps-4 " *ngIf="m.promo==true" >
+              <h5 class="d-flex justify-content-lg-between pb-2">
+                <span>{{m.name}}</span>
+                <span>
+                  <span class="text-danger text-end myFont">{{(m.prix!*(1-(m.prixpromo!/100))) |  number: '0.00' }} Ar</span>
+                  <span class="text-primary text-decoration-line-through line myFont" style="font-size: 15px;">| {{m.prix |  number: '0.00' }} Ar</span>
+                </span>
+
+              </h5>
+              <small class="fst-italic">{{m.ingredient}}</small>
+            </div>
+
+            <div class="w-100 d-flex flex-column text-start ps-4 " *ngIf="m.promo==false">
+              <h5 class="d-flex justify-content-lg-between border-bottom pb-2">
+                <span>{{m.name}}</span>
+                <span class="text-primary line myFont">{{m.prix |  number: '0.00' }} Ar</span>
+              </h5>
+              <small class="fst-italic">
+                {{m.ingredient}}
+              </small>
+            </div>
+
+            <form [formGroup]="formPanier" (ngSubmit)="addToCart(m)" class="">
+              <div class="btn-toolbar mb-2 mb-md-0 cc-shope-position">
+                <div class="btn-group cc-shope">
+                  <input value="1" type="number" [id]="m.idMen" class="form-control quantity-input qtin" formControlName="quantite">
+                </div>
+                <button (click)="showSuccess()"  [disabled]="!formPanier.valid" type="submit" class="btn btn-sm btn-outline-info" data-bss-hover-animate="rubberBand">
+                  <i class="fa fa-shopping-cart"></i>
+                </button>
+                <span *ngIf="formPanier.controls['quantite'].valueChanges
+                  && formPanier.controls['quantite'].errors
+                  && formPanier.controls['quantite'].errors['required']" class="text-danger">
+                  un chiffre entre 1 à 20 est obligatiore!
+                </span>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m1.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">
+                Some quick example text to build on the card title and make up the bulk of the card's content.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m2.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m3.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m4.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m5.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m6.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m7.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m8.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center lightbox-img">
+            <img style="width: 200px" src="assets/imgmenu/m9.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m10.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m11.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m4.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m13.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m14.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m15.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m16.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 lightbox-img">
+          <div class="d-flex align-items-center">
+            <img style="width: 200px" src="assets/imgmenu/m17.PNG" alt="" class="img-fluid flex-shrink-0 rounded">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Chicken Burger</span>
+                <span class="text-warning">Ar5000</span>
+              </h5>
+              <small class="fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!--++++++++++++++++++++++-->
+<section class="cc-menu py-5 merriweather">
+    <div class="container mb-5  d-flex align-items-center justify-content-center py-5">
+          <div class=" text-center">
+            <h1 class="text-light text-capitalize">Restaurant multi-saveurs a votre Goût <br> dans la ville d'AMBOSITRA</h1>
+            <p class="py-5"><a class="btn btn-outline-warning-brand me-5" href="#">Resever </a> <a class="btn btn-outline-warning-brand" href="#">Commander maintenant</a></p>
+          </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
